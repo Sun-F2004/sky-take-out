@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
     /**
      * 捕获业务异常
      */
-    @ExceptionHandler
+    @ExceptionHandler(BaseException.class)
     public Result<String> exceptionHandler(BaseException ex){
         log.error("异常信息：{}", ex.getMessage());
         return Result.error(ex.getMessage());
@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     /**
      * 捕获SQL异常
      */
-    @ExceptionHandler
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public Result<String> exceptionHandler(SQLIntegrityConstraintViolationException ex){
         String message = ex.getMessage();
         //处理用户名冲突

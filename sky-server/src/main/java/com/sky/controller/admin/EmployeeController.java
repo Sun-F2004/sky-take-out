@@ -35,7 +35,9 @@ public class EmployeeController {
     @Autowired
     private JwtProperties jwtProperties;
 
-    //登录
+    /**
+     * 员工登录
+     */
     @PostMapping("/login")
     @ApiOperation("员工登录")
     public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
@@ -61,7 +63,9 @@ public class EmployeeController {
         return Result.success(employeeLoginVO);
     }
 
-    //添加员工
+    /**
+     * 添加员工
+     */
     @PostMapping
     @ApiOperation("添加员工")
     public Result<String> save(@RequestBody EmployeeDTO employeeDTO) {
@@ -70,6 +74,9 @@ public class EmployeeController {
         return Result.success();
     }
 
+    /**
+     * 员工分页查询
+     */
     @GetMapping("/page")
     @ApiOperation("员工分页查询")
     public Result<PageResult> pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
@@ -77,7 +84,40 @@ public class EmployeeController {
         return Result.success(employeeService.pageQuery(employeePageQueryDTO));
     }
 
-    //退出
+    /**
+     * 更新员工的状态
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("更新员工的状态")
+    public Result<String> updateStatus(Long id, @PathVariable Integer status) {
+        log.info("更新员工的状态：{},{}", id, status);
+        employeeService.updateStatus(id, status);
+        return Result.success();
+    }
+
+    /**
+     * 根据id获取员工信息
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id获取员工信息")
+    public Result<Employee> getById(@PathVariable Long id) {
+        return Result.success(employeeService.getById(id));
+    }
+
+    /**
+     * 编辑员工信息
+     */
+    @PutMapping
+    @ApiOperation("编辑员工信息")
+    public Result<String> update(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("需要编辑的员工信息{}", employeeDTO);
+        employeeService.update(employeeDTO);
+        return Result.success();
+    }
+
+    /**
+     * 员工退出
+     */
     @PostMapping("/logout")
     @ApiOperation("员工退出")
     public Result<String> logout() {
