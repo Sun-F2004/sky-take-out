@@ -65,7 +65,7 @@ public class EmployeeController {
     //添加员工
     @PostMapping
     @ApiOperation("添加员工")
-    public Result<String> save(@RequestBody EmployeeDTO employeeDTO) {
+    public Result save(@RequestBody EmployeeDTO employeeDTO) {
         log.info("添加员工：{}", employeeDTO);
         employeeService.save(employeeDTO);
         return Result.success();
