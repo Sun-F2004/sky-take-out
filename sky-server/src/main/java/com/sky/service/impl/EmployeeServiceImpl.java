@@ -30,7 +30,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeMapper employeeMapper;
 
-    //员工登录
+    /**
+     * 员工登录
+     */
     @Override
     public Employee login(EmployeeLoginDTO employeeLoginDTO) {
         String username = employeeLoginDTO.getUsername();
@@ -62,7 +64,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
-    //添加员工
+    /**
+     * 添加员工
+     */
     @Override
     public void save(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
@@ -72,16 +76,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
         //默认启用状态为开启
         employee.setStatus(StatusConstant.ENABLE);
-        //设置创建时间和更新时间
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-        //设置创建者和更新者
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.add(employee);
     }
 
+    /**
+     * 员工分页查询
+     */
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
         //使用插件来进行分页查询
@@ -91,6 +92,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new PageResult(employees.getTotal(), employees.getResult());
     }
 
+    /**
+     * 更新员工的状态
+     */
     @Override
     public void updateStatus(Long id, Integer status) {
         //初始化对象
@@ -99,6 +103,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.update(employee);
     }
 
+    /**
+     * 根据id获取员工信息
+     */
     @Override
     public Employee getById(Long id) {
         Employee employee = employeeMapper.getById(id);
@@ -107,14 +114,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    /**
+     * 编辑员工信息
+     */
     @Override
     public void update(EmployeeDTO employeeDTO) {
         //属性拷贝
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
-        //更新相关的信息
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+
         employeeMapper.update(employee);
     }
 
