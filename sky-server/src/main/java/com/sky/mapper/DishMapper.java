@@ -21,7 +21,6 @@ public interface DishMapper {
     @Select("select count(id) from dish where category_id = #{categoryId}")
     Integer countByCategoryId(Long categoryId);
 
-
     /**
      * 新增菜品
      */
@@ -55,4 +54,17 @@ public interface DishMapper {
      */
     @AutoFill(OperationType.UPDATE)
     void update(Dish dish);
+
+    /**
+     * 根据分类id查询菜品
+     */
+    @Select("select * from dish where category_id = #{categoryId}")
+    List<Dish> getByCategoryId(Long categoryId);
+
+    /**
+     * 使用连接表来根据套餐id获取关联的菜品
+     */
+    @Select("select a.* from dish a left join setmeal_dish b on a.id = b.dish_id " +
+            "where b.setmeal_id = #{id}")
+    List<Dish> getBySetmealId(Long id);
 }
